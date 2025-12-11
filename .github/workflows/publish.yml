@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  # id-token: write
+  id-token: write
   contents: write
   issues: write
   pull-requests: write
@@ -19,14 +19,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-          # registry-url: "https://registry.npmjs.org"
-      # - name: Update npm
-      #   run: npm install -g npm@latest
+          registry-url: "https://registry.npmjs.org"
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: yarn
       - run: yarn build
       - run: yarn test
       - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
